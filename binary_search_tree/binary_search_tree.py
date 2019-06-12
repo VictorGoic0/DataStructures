@@ -5,25 +5,26 @@ class BinarySearchTree:
     self.right = None
 
   def insert(self, value):
-    # while self:
-    #   if value < self.value and self.left is None:
-    #     self.left = BinarySearchTree(value)
-    #     break
-    #   elif value < self.value and self.left is not None:
-    #     self = self.left
-    #   elif value >= self.value and self.right is None:
-    #     self.right = BinarySearchTree(value)
-    #     break
-    #   else:
-    #     self = self.right
-    if value < self.value and self.left is None:
-      self.left = BinarySearchTree(value)
-    elif value < self.value and self.left is not None:
-      self.left.insert(value)
-    elif value >= self.value and self.right is None:
-      self.right = BinarySearchTree(value)
-    else:
-      self.right.insert(value)
+    while self:
+      if value < self.value and self.left is None:
+        self.left = BinarySearchTree(value)
+        break
+      elif value < self.value and self.left is not None:
+        self = self.left
+      elif value >= self.value and self.right is None:
+        self.right = BinarySearchTree(value)
+        break
+      else:
+        self = self.right
+    # The recursive version below also works.
+    # if value < self.value and self.left is None:
+    #   self.left = BinarySearchTree(value)
+    # elif value < self.value and self.left is not None:
+    #   self.left.insert(value)
+    # elif value >= self.value and self.right is None:
+    #   self.right = BinarySearchTree(value)
+    # else:
+    #   self.right.insert(value)
 
   def contains(self, target):
     while True:
@@ -39,7 +40,11 @@ class BinarySearchTree:
         self = self.right
 
   def get_max(self):
-    pass
+    while self:
+      if self.right is None:
+        return self.value
+      else:
+        self = self.right
 
   def for_each(self, cb):
     pass
