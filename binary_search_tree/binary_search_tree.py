@@ -26,7 +26,17 @@ class BinarySearchTree:
       self.right.insert(value)
 
   def contains(self, target):
-    pass
+    while True:
+      if self.value == target:
+        return True
+      elif target < self.value and self.left is None:
+        return False
+      elif target < self.value and self.left is not None:
+        self = self.left
+      elif target >= self.value and self.right is None:
+        return False
+      else:
+        self = self.right
 
   def get_max(self):
     pass
