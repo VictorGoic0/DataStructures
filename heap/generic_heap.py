@@ -1,5 +1,5 @@
 class Heap:
-  def __init__(self, comparator = lambda x, y: x > y):
+  def __init__(self, comparator = lambda x, y: x >= y ):
     self.storage = []
     self.comparator = comparator
 
