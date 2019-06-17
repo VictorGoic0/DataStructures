@@ -94,7 +94,7 @@ class HeapTests(unittest.TestCase):
     self.assertEqual(self.heap.get_priority(), 1)
 
   def test_custom_get_priority_after_delete(self):
-    self.heap = Heap(lambda x, y: x < y)
+    self.heap = Heap(lambda x, y: x <= y)
 
     self.heap.insert(6)
     self.heap.insert(8)
@@ -116,7 +116,7 @@ class HeapTests(unittest.TestCase):
     self.assertEqual(self.heap.get_priority(), 9)
 
   def test_custom_delete_elements_in_order(self):
-    self.heap = Heap(lambda x, y: x < y)
+    self.heap = Heap(lambda x, y: x <= y)
 
     self.heap.insert(6)
     self.heap.insert(7)
