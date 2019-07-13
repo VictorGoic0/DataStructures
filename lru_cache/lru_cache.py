@@ -1,6 +1,11 @@
+from doubly_linked_list import DoublyLinkedList
+
 class LRUCache:
   def __init__(self, limit=10):
-    pass
+    self.limit = limit
+    self.items = 0
+    self.storage = {}
+    self.orderedKeys = DoublyLinkedList()
 
   """
   Retrieves the value associated with the given key. Also
@@ -10,7 +15,15 @@ class LRUCache:
   key-value pair doesn't exist in the cache. 
   """
   def get(self, key):
-    pass
+    if key not in self.storage:
+      return None
+    current_node = self.orderedKeys.head
+    while current_node:
+      if current_node.value == key:
+        self.orderedKeys.move_to_end(current_node)
+        break
+      current_node = current_node.next
+    return self.storage[key]
 
   """
   Adds the given key-value pair to the cache. The newly-
@@ -23,4 +36,10 @@ class LRUCache:
   the newly-specified value. 
   """
   def set(self, key, value):
-    pass
+    self.storage[key] = value
+    self.orderedKeys.add_to_tail(key)
+    self.items += 1
+    if self.items > self.limit:
+      old_key = self.orderedKeys.remove_from_head()
+      self.storage.pop(old_key)
+      self.items -= 1
