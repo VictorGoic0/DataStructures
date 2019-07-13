@@ -55,9 +55,3 @@ class Heap:
           index = child1
         else:
           break
-      elif child2 < length:
-        if self.storage[child2] > self.storage[index]:
-          self.storage[child2], self.storage[index] = self.storage[index], self.storage[child2]
-          index = child2
-        else:
-          break
