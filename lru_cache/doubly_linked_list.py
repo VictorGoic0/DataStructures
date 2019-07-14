@@ -69,29 +69,27 @@ class DoublyLinkedList:
     tail = False
     if (node.next == None):
       tail = True
+    if tail:
+      self.tail = node.prev
     node.delete()
     current_head = self.head
     self.head = node
     self.head.next = current_head
     self.head.prev = None
     current_head.prev = self.head
-    if tail:
-      self.tail = current_head
-      self.tail.next = None
 
   def move_to_end(self, node):
     head = False
     if (node.prev == None):
       head = True
+    if head:
+      self.head = node.next
     node.delete()
     current_tail = self.tail
     self.tail = node
     self.tail.prev = current_tail
     self.tail.next = None
     current_tail.next = self.tail
-    if head:
-      self.head = current_tail
-      self.head.prev = None
 
   def delete(self, node):
     if node.prev == None:
