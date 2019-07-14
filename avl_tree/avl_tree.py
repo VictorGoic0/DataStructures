@@ -1,3 +1,19 @@
+class Stack():
+  def __init__(self):
+    self.stack = []
+    self.length = 0
+  def push(self, value):
+    self.length += 1
+    self.stack.append(value)
+  def pop(self):
+    if self.size() > 0:
+      self.length -= 1
+      return self.stack.pop()
+    else:
+      return None
+  def size(self):
+    return self.length
+
 """
 Node class to keep track of
 the data internal to individual nodes
@@ -40,8 +56,40 @@ class AVLTree:
   in the tree
   """
   def update_height(self):
-    pass
-
+    if self.node is None:
+      return
+    s = Stack()
+    visited = set()
+    max_height = -1
+    starting_vertex = self.node
+    s.push([starting_vertex])
+    while s.size() > 0:
+      path = s.pop()
+      node = path[-1]
+      if node not in visited:
+        visited.add(node)
+        if node.left and node.right:
+          left_path = path[:]
+          left_path.append(node.left.node)
+          s.push(left_path)
+          right_path = path[:]
+          right_path.append(node.right.node)
+          s.push(right_path)
+        elif node.left:
+          left_path = path[:]
+          left_path.append(node.left.node)
+          s.push(left_path)
+        elif node.right:
+          right_path = path[:]
+          right_path.append(node.right.node)
+          s.push(right_path)
+        else:
+          length = len(path) - 1
+          if length > max_height:
+            max_height = length
+      self.height = max_height
+    
+    
   """
   Updates the balance factor on the AVLTree class
   """
