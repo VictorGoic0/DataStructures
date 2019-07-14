@@ -66,10 +66,7 @@ class DoublyLinkedList:
     return current_tail.value
 
   def move_to_front(self, node):
-    tail = False
     if (node.next == None):
-      tail = True
-    if tail:
       self.tail = node.prev
     node.delete()
     current_head = self.head
@@ -79,10 +76,7 @@ class DoublyLinkedList:
     current_head.prev = self.head
 
   def move_to_end(self, node):
-    head = False
     if (node.prev == None):
-      head = True
-    if head:
       self.head = node.next
     node.delete()
     current_tail = self.tail
