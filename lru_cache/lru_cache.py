@@ -45,6 +45,7 @@ class LRUCache:
   def set(self, key, value):
     if key in self.storage:
       self.storage[key] = value
+      self.storage.move_to_end(key)
     else:
       self.storage[key] = value
       self.items += 1
