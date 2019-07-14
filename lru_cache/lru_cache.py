@@ -7,13 +7,6 @@ class LRUCache:
     self.storage = {}
     self.orderedKeys = DoublyLinkedList()
 
-  """
-  Retrieves the value associated with the given key. Also
-  needs to move the key-value pair to the top of the order
-  such that the pair is considered most-recently used.
-  Returns the value associated with the key or None if the
-  key-value pair doesn't exist in the cache. 
-  """
   def get(self, key):
     if key not in self.storage:
       return None
@@ -36,10 +29,13 @@ class LRUCache:
   the newly-specified value. 
   """
   def set(self, key, value):
-    self.storage[key] = value
-    self.orderedKeys.add_to_tail(key)
-    self.items += 1
-    if self.items > self.limit:
-      old_key = self.orderedKeys.remove_from_head()
-      self.storage.pop(old_key)
-      self.items -= 1
+    if key in self.storage:
+      self.storage[key] = value
+    else:
+      self.storage[key] = value
+      self.orderedKeys.add_to_tail(key)
+      self.items += 1
+      if self.items > self.limit:
+        old_key = self.orderedKeys.remove_from_head()
+        self.storage.pop(old_key)
+        self.items -= 1
