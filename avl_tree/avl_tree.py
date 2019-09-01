@@ -56,6 +56,7 @@ class AVLTree:
   in the tree
   """
   def update_height(self):
+    ## Come back and optimize later, should know which side to search for deepest node based on the balance of the tree
     if self.node is None:
       return
     s = Stack()
@@ -94,7 +95,21 @@ class AVLTree:
   Updates the balance factor on the AVLTree class
   """
   def update_balance(self):
-    pass
+    if self.node.left and self.node.right:
+      self.node.left.update_height()
+      left_height = self.node.left.height
+      self.node.right.update_height()
+      right_height = self.node.right.height
+      self.balance = left_height - right_height
+    elif self.node.left:
+      self.node.left.update_height()
+      self.balance = self.node.left.height
+    elif self.node.right:
+      self.node.right.update_height()
+      self.balance = self.node.right.height
+    else:
+      self.balance = 0
+
 
   """
   Perform a left rotation, making the right child of this
@@ -102,7 +117,15 @@ class AVLTree:
   of the new parent. 
   """
   def left_rotate(self):
-    pass
+    if self.node.right:
+      right_child = self.node.right.node
+      self.node.right = None
+      current_node = self.node
+      self.node = right_child
+      if self.node.left:
+        self.node.left.node = current_node
+      else:
+        self.node.left = AVLTree(current_node)
 
   """
   Perform a right rotation, making the left child of this
@@ -110,8 +133,15 @@ class AVLTree:
   of the new parent. 
   """
   def right_rotate(self):
-    pass
-
+    if self.node.left:
+      left_child = self.node.left.node
+      self.node.left = None
+      current_node = self.node
+      self.node = left_child
+      if self.node.right:
+        self.node.right.node = current_node
+      else:
+        self.node.right = AVLTree(current_node) 
   """
   Sets in motion the rebalancing logic to ensure the
   tree is balanced such that the balance factor is
