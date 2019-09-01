@@ -160,4 +160,19 @@ class AVLTree:
   if we need to rebalance
   """
   def insert(self, key):
-    pass
+    # Regular BST insertion
+    if self.node:
+      while self:
+        if key < self.node.key and self.node.left is None:
+          self.node.left = AVLTree(Node(key))
+          break
+        elif key < self.node.key and self.node.left is not None:
+          self = self.node.left
+        elif key >= self.node.key and self.node.right is None:
+          self.node.right = AVLTree(Node(key))
+          break
+        else:
+          self = self.node.right
+    else:
+      self.node = Node(key)
+    # Check tree balance and see if rebalance is needed
