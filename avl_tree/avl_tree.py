@@ -152,27 +152,58 @@ class AVLTree:
   1 or -1
   """
   def rebalance(self):
-    pass
+    balances = set([-1, 1])
+    self.update_balance()
+    if self.balance > 1 or self.balance < -1:
+      s = Stack()
+      s.push([self])
+      while s.size() > 0:
+        # Keep performing rotations until balance is <= 1
+        path = s.pop()
+        tree = path[-1]
+        if tree.balance in balances:
+          if tree.balance == -1:
+            parent = path[-2]
+            tree.left_rotate()
+            parent.right_rotate()
+            break
+          else:
+            parent = path[-2]
+            tree.right_rotate()
+            parent.left_rotate()
+            break
+        else:
+          if tree.node.left:
+            tree.node.left.update_balance()
+            new_path = path[:]
+            new_path.append(tree.node.left)
+            s.push(new_path)
+          if tree.node.right:
+            tree.node.right.update_balance()
+            new_path = path[:]
+            new_path.append(tree.node.right)
+            s.push(new_path)
+
     
   """
   Uses the same insertion logic as a binary search tree
   after the value is inserted, we need to check to see
   if we need to rebalance
   """
-  def insert(self, key):
-    # Regular BST insertion
-    if self.node:
-      while self:
-        if key < self.node.key and self.node.left is None:
-          self.node.left = AVLTree(Node(key))
-          break
-        elif key < self.node.key and self.node.left is not None:
-          self = self.node.left
-        elif key >= self.node.key and self.node.right is None:
-          self.node.right = AVLTree(Node(key))
-          break
-        else:
-          self = self.node.right
-    else:
-      self.node = Node(key)
+  # def insert(self, key):
+  #   # Regular BST insertion
+  #   if self.node:
+  #     while self:
+  #       if key < self.node.key and self.node.left is None:
+  #         self.node.left = AVLTree(Node(key))
+  #         break
+  #       elif key < self.node.key and self.node.left is not None:
+  #         self = self.node.left
+  #       elif key >= self.node.key and self.node.right is None:
+  #         self.node.right = AVLTree(Node(key))
+  #         break
+  #       else:
+  #         self = self.node.right
+  #   else:
+  #     self.node = Node(key)
     # Check tree balance and see if rebalance is needed
