@@ -156,7 +156,12 @@ class AVLTree:
     self.update_balance()
     if self.balance > 1 or self.balance < -1:
       s = Stack()
-      s.push([self])
+      if self.balance > 1:
+        self.node.left.update_balance()
+        s.push([self, self.node.left])
+      elif self.balance < -1:
+        self.node.right.update_balance()
+        s.push([self, self.node.right])
       while s.size() > 0:
         # Keep performing rotations until balance is <= 1
         path = s.pop()
