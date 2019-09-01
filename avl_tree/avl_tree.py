@@ -123,7 +123,9 @@ class AVLTree:
       previous_node = self.node
       self.node = right_child
       if self.node.left:
+        previous_left = self.node.left.node
         self.node.left.node = previous_node
+        self.node.left.node.right = AVLTree(previous_left)
       else:
         self.node.left = AVLTree(previous_node)
 
