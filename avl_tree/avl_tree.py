@@ -120,12 +120,12 @@ class AVLTree:
     if self.node.right:
       right_child = self.node.right.node
       self.node.right = None
-      current_node = self.node
+      previous_node = self.node
       self.node = right_child
       if self.node.left:
-        self.node.left.node = current_node
+        self.node.left.node = previous_node
       else:
-        self.node.left = AVLTree(current_node)
+        self.node.left = AVLTree(previous_node)
 
   """
   Perform a right rotation, making the left child of this
@@ -136,12 +136,12 @@ class AVLTree:
     if self.node.left:
       left_child = self.node.left.node
       self.node.left = None
-      current_node = self.node
+      previous_node = self.node
       self.node = left_child
       if self.node.right:
-        self.node.right.node = current_node
+        self.node.right.node = previous_node
       else:
-        self.node.right = AVLTree(current_node) 
+        self.node.right = AVLTree(previous_node) 
   """
   Sets in motion the rebalancing logic to ensure the
   tree is balanced such that the balance factor is
