@@ -99,7 +99,13 @@ class AVLTreeTests(unittest.TestCase):
     self.tree.insert(8)
     self.assertEqual(self.tree.node.right.node.key, 7)
     self.assertEqual(self.tree.node.right.node.left.node.key, 6)
-    self.assertEqual(self.tree.node.right.node.right.node.key, 8) 
+    self.assertEqual(self.tree.node.right.node.right.node.key, 8)
+    self.tree.insert(10)
+    self.tree.insert(2)
+    self.tree.insert(1)
+    self.tree.insert(20)
+    self.tree.insert(14)
+    self.tree.display()
 
 if __name__ == '__main__':
   unittest.main()

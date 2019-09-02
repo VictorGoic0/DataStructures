@@ -103,10 +103,10 @@ class AVLTree:
       self.balance = left_height - right_height
     elif self.node.left:
       self.node.left.update_height()
-      self.balance = self.node.left.height
+      self.balance = self.node.left.height + 1
     elif self.node.right:
       self.node.right.update_height()
-      self.balance = self.node.right.height
+      self.balance = -1 - self.node.right.height
     else:
       self.balance = 0
 
@@ -167,10 +167,22 @@ class AVLTree:
         path = s.pop()
         tree = path[-1]
         if tree.balance in balances:
-          if tree.balance == -1:
+          if tree.balance == -1 or tree.balance == 1:
             parent = path[-2]
-            tree.left_rotate()
-            parent.right_rotate()
+            # print('fired')
+            def getKey(tree):
+              return tree.node.key
+            result = map(getKey, path)
+            # print(list(result), '<----path')
+            # print(tree.node.key)
+            # print(parent.node.key)
+            if self.balance > 1:
+              tree.left_rotate()
+              parent.right_rotate()
+            elif self.balance < -1 :
+              tree.right_rotate()
+              parent.left_rotate()
+            # print(parent.node.key, '<--- parent')
             break
           else:
             parent = path[-2]
@@ -202,15 +214,24 @@ class AVLTree:
       while self:
         if key < self.node.key and self.node.left is None:
           self.node.left = AVLTree(Node(key))
-          root.rebalance()
           break
         elif key < self.node.key and self.node.left is not None:
           self = self.node.left
         elif key >= self.node.key and self.node.right is None:
           self.node.right = AVLTree(Node(key))
-          root.rebalance()
           break
         else:
           self = self.node.right
+      current_node = root
+      # root.rebalance()
+      s = Stack()
+      s.push(root)
+      while s.size() > 0:
+        tree = s.pop()
+        tree.rebalance()
+        if tree.node.left:
+          s.push(tree.node.left)
+        if tree.node.right:
+          s.push(tree.node.right)
     else:
       self.node = Node(key)
