@@ -13,6 +13,8 @@ class Stack():
       return None
   def size(self):
     return self.length
+  def clear(self):
+    self.stack = []
 
 """
 Node class to keep track of
@@ -210,28 +212,34 @@ class AVLTree:
   def insert(self, key):
     # Regular BST insertion
     if self.node:
-      root = self
-      while self:
-        if key < self.node.key and self.node.left is None:
-          self.node.left = AVLTree(Node(key))
+      s = Stack()
+      s.push([self])
+      final_path = None
+      while s.size() > 0:
+        path = s.pop()
+        tree = path[-1]
+        if key < tree.node.key and tree.node.left is None:
+          tree.node.left = AVLTree(Node(key))
+          final_path = path[:]
+          s.clear()
           break
-        elif key < self.node.key and self.node.left is not None:
-          self = self.node.left
-        elif key >= self.node.key and self.node.right is None:
-          self.node.right = AVLTree(Node(key))
+        elif key < tree.node.key and tree.node.left is not None:
+          new_path = path[:]
+          new_path.append(tree.node.left)
+          s.push(new_path)
+        elif key >= tree.node.key and tree.node.right is None:
+          tree.node.right = AVLTree(Node(key))
+          final_path = path[:]
+          s.clear()
           break
         else:
-          self = self.node.right
-      current_node = root
-      # root.rebalance()
-      s = Stack()
-      s.push(root)
-      while s.size() > 0:
-        tree = s.pop()
-        tree.rebalance()
-        if tree.node.left:
-          s.push(tree.node.left)
-        if tree.node.right:
-          s.push(tree.node.right)
+          new_path = path[:]
+          new_path.append(tree.node.right)
+          s.push(new_path)
+      while len(final_path) > 0:
+        parent = final_path.pop()
+        parent.update_balance()
+        if parent.balance > 1 or parent.balance < -1:
+          parent.rebalance()
     else:
       self.node = Node(key)
